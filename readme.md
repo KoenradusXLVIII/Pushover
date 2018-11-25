@@ -9,34 +9,18 @@ please see the [Pushover API documentation](https://pushover.net/api).
 
 ## Usage example
 ```python
-# Import modules
-import yaml
-from pushover import client
-
-# Load configuration YAML
-fp = open('config.yaml','r')
-cfg = yaml.load(fp)
+import pushover
 
 # Create Pushover instance
-pushover = client(cfg['pushover']['token'], cfg['pushover']['user'])
+pushover_client = pushover.Client('your API token', 'your user key')
 
 # Send simple message
-pushover.message('Hello world!')
+pushover_client.message('Hello world!')
 
 # Send message with image attachment
 fp = open('randomimage.jpg', 'rb')
-pushover.message('Look at this cool picture!',fp)
+pushover_client.message('Look at this cool picture!',fp)
 
 # Send high priority message with custom title (without attachment)
-pushover.message('Important message!','','Help!','high')
-```
-
-## Configuration file example
-The configuration file is not included in the repository, because it contains sensitive data. 
-To make these scripts work, create a config.yaml file and use the following layout.
-```
-# Pushover authentication
-pushover:
-  token : 'YOUR API TOKEN HERE'
-  user  : 'YOUR USER KEY HERE'
+pushover_client.message('Important message!','','Help!','high')
 ```
