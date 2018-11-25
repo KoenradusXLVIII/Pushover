@@ -1,6 +1,6 @@
 import requests
 
-class Pushover:
+class Client:
     def __init__(self, token, user):
         self.token = token
         self.user = user
