@@ -7,7 +7,7 @@ status_codes = {'0', '1'}
 priorities = {'lowest', 'low', 'normal', 'high'}
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def pushover_client(token):
     return pushover.Client(token, 'user')
 
