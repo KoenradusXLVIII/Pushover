@@ -22,5 +22,5 @@ fp = open('randomimage.jpg', 'rb')
 pushover_client.message('Look at this cool picture!',fp)
 
 # Send high priority message with custom title (without attachment)
-pushover_client.message('Important message!','','Help!','high')
+pushover_client.message('Important message!',title='Help!',priority='high')
 ```

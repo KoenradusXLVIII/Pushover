@@ -6,9 +6,10 @@ import responses
 status_codes = {'0', '1'}
 priorities = {'lowest', 'low', 'normal', 'high'}
 
+
 @pytest.fixture
-def pushover_client():
-    return pushover.Client('token', 'user')
+def pushover_client(token):
+    return pushover.Client(token, 'user')
 
 
 def test_get_url(pushover_client):
@@ -41,9 +42,21 @@ def test_send_empty_message(pushover_client, priority):
     responses.add(responses.POST, url, json={'status': 1, 'request': 'xxx'}, status=200)
 
     # Run the test
-    data = pushover_client.message('test', '', '', priority).json()
+    data = pushover_client.message('test', priority=priority).json()
     assert data['status'] == 1
     with pytest.raises(TypeError):
-        pushover_client.message('test','','', 'invalid priority')
+        pushover_client.message('test', priority='invalid priority')
 
+
+def test_different_sounds(pushover_client):
+    # Prepare the response
+    url = pushover_client.get_url()
+    responses.add(responses.POST, url, json={'status': 1, 'request': 'xxx'}, status=200)
+
+    # Run the test
+    sounds = pushover_client.get_sounds()
+    for i in range(2):
+        pushover_client.message('test', sound=list(sounds.keys())[i])
+    with pytest.raises(TypeError):
+        pushover_client.message('test', sound='invalid sound')
 
